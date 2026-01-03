@@ -4,10 +4,13 @@ import "./AdBanner.css";
 const AdBanner: React.FC = () => {
   return (
     <div className="ad-banner-container">
-      {/* 
-        This is a placeholder for Google AdSense or other ad networks.
-        In a real implementation, you would place the script tag here.
-      */}
+      {/* Google AdSense Script for Verification */}
+      <script
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4043809182042148"
+        crossOrigin="anonymous"
+      ></script>
+
       <div className="ad-placeholder">
         <p>スポンサーリンク</p>
         <div className="ad-content">広告スペース (320x50)</div>
