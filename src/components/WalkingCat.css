@@ -1,0 +1,21 @@
+.cat-container-fixed {
+  position: fixed;
+  top: 50%-100px;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center the element */
+  cursor: pointer;
+  z-index: 10;
+  /* No animation on the container itself for movement, only frame changes */
+}
+
+.cat-sprite {
+  width: 128px; /* Increased size for visibility */
+  image-rendering: pixelated; /* Keeps pixel art crisp */
+  user-select: none;
+  -webkit-user-drag: none;
+  transition: transform 0.1s;
+}
+
+.cat-container-fixed:hover .cat-sprite {
+  transform: scale(1.05);
+}

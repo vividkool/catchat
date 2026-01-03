@@ -1,0 +1,24 @@
+.app-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  background-color: #f0f8ff; /* AliceBlue for sky */
+  background-image: linear-gradient(
+    to bottom,
+    #f0f8ff 0%,
+    #e6f7ff 50%,
+    #90ee90 50%,
+    #228b22 100%
+  ); /* Simple sky and grass */
+  overflow: hidden;
+}
+
+.app-title {
+  position: relative; /* 今の位置を基準 */
+  top: -250px; /* 上から10px */
+  color: #228b22;
+}
