@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import WalkingCat from "./components/WalkingCat";
 import ChatBubble from "./components/ChatBubble";
+import AdBanner from "./components/AdBanner";
 import { sendMessageToAI } from "./services/aiService";
 import { saveMessage, getRecentMessages } from "./services/firebase";
 import "./App.css";
@@ -12,6 +13,7 @@ function App() {
   >([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  // Context Memory: Load history on mount
   useEffect(() => {
     const loadHistory = async () => {
       const history = await getRecentMessages(10);
@@ -78,6 +80,7 @@ function App() {
           isLoading={isLoading}
         />
       )}
+      <AdBanner />
     </div>
   );
 }
