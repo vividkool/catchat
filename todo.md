@@ -1,7 +1,11 @@
-# プロジェクト状況 (2026-01-03 更新)
+# プロジェクト状況 (2026-01-04 更新)
 
 ## 本日の実装完了項目
 
+- [x] **音声合成 (TTS)**:
+  - Google Cloud Text-to-Speech API 連携
+  - 猫らしい声 (Neural2 + Pitch Shift) の実装
+  - React フロントエンドへの Python ロジックの移植
 - [x] **プロジェクト基盤**: Vite + React + TypeScript + Firebase 環境構築
 - [x] **UI/UX**:
   - キャラクター（猫）の歩行アニメーション (フレームアニメーション)

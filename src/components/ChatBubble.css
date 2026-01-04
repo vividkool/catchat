@@ -1,6 +1,6 @@
 .chat-bubble-container {
   position: fixed;
-  top: calc(50%); /* Center + half cat height + margin */
+  top: calc(42%); /* Center + half cat height + margin */
   left: 50%;
   transform: translateX(-50%);
   width: 300px;

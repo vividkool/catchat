@@ -18,7 +18,11 @@
 }
 
 .app-title {
+  display: flex;
+  flex-direction: column;
   position: relative; /* 今の位置を基準 */
   top: -250px; /* 上から10px */
-  color: #228b22;
+  align-items: center;
+  justify-content: center;
+  color: #5034be;
 }

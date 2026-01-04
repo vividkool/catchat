@@ -4,6 +4,7 @@ import ChatBubble from "./components/ChatBubble";
 import AdBanner from "./components/AdBanner";
 import { sendMessageToAI } from "./services/aiService";
 import { saveMessage, getRecentMessages } from "./services/firebase";
+import { playCatVoice } from "./services/ttsService";
 import "./App.css";
 
 function App() {
@@ -54,6 +55,7 @@ function App() {
       const aiMsg = { role: "model" as const, content: response };
       setMessages((prev) => [...prev, aiMsg]);
       saveMessage(response, "cat");
+      playCatVoice(response);
     } catch (error) {
       console.error("Error getting AI response:", error);
       setMessages((prev) => [
@@ -68,7 +70,7 @@ function App() {
   return (
     <div className="app-container">
       <div className="app-title">
-        <h1>CAT CHAT</h1>
+        <h1>CAT AI CHAT</h1>
         <p>by GEMINI</p>
       </div>
       <WalkingCat onClick={handleCatClick} />
