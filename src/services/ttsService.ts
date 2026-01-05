@@ -1,3 +1,30 @@
+// AudioContext singleton to maintain "unlocked" state
+let audioContext: AudioContext | null = null;
+
+const getAudioContext = () => {
+  if (!audioContext) {
+    const AudioContextClass =
+      window.AudioContext || (window as any).webkitAudioContext;
+    audioContext = new AudioContextClass();
+  }
+  return audioContext;
+};
+
+// Call this function directly from a user interaction (e.g., button click)
+export const prepareAudio = async () => {
+  const ctx = getAudioContext();
+  if (ctx.state === "suspended") {
+    await ctx.resume();
+  }
+  // Create and play a short silent buffer to ensure the context is "warmed up" / unlocked
+  // This is helpful for some strict mobile browsers
+  const buffer = ctx.createBuffer(1, 1, 22050);
+  const source = ctx.createBufferSource();
+  source.buffer = buffer;
+  source.connect(ctx.destination);
+  source.start(0);
+};
+
 export const playCatVoice = async (text: string) => {
   const apiKey =
     import.meta.env.VITE_TTS_API_KEY || import.meta.env.VITE_AI_API_KEY;
@@ -46,8 +73,22 @@ export const playCatVoice = async (text: string) => {
     const audioContent = data.audioContent; // Base64 string
 
     if (audioContent) {
-      const audio = new Audio(`data:audio/mp3;base64,${audioContent}`);
-      audio.play().catch((e) => console.error("Audio play failed:", e));
+      const ctx = getAudioContext();
+
+      // Decode Base64 string to ArrayBuffer
+      const binaryString = window.atob(audioContent);
+      const len = binaryString.length;
+      const bytes = new Uint8Array(len);
+      for (let i = 0; i < len; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+
+      // Decode audio data and play
+      const audioBuffer = await ctx.decodeAudioData(bytes.buffer);
+      const source = ctx.createBufferSource();
+      source.buffer = audioBuffer;
+      source.connect(ctx.destination);
+      source.start(0);
     }
   } catch (error) {
     console.error("Error playing cat voice:", error);

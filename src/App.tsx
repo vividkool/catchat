@@ -4,7 +4,7 @@ import ChatBubble from "./components/ChatBubble";
 import AdBanner from "./components/AdBanner";
 import { sendMessageToAI } from "./services/aiService";
 import { saveMessage, getRecentMessages } from "./services/firebase";
-import { playCatVoice } from "./services/ttsService";
+import { playCatVoice, prepareAudio } from "./services/ttsService";
 import "./App.css";
 
 function App() {
@@ -36,9 +36,14 @@ function App() {
     if (messages.length === 0) {
       setMessages([{ role: "model", content: "ニャー？ (なにか用？)" }]);
     }
+    // Also prepare audio on first click just in case
+    prepareAudio();
   };
 
   const handleSendMessage = async (text: string) => {
+    // Prepare audio context immediately on user interaction
+    prepareAudio();
+
     // Add user message
     const userMsg = { role: "user" as const, content: text };
     const newMessages = [...messages, userMsg];
