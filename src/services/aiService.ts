@@ -29,7 +29,7 @@ export const sendMessageToAI = async (
   try {
     // Switching to gemini-flash-latest as 2.0-flash hit quota limits
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
+    const model = genAI.getGenerativeModel({ model: "gemini-3.1-flash-lite" });
 
     // Convert app history format to Gemini history format
     const geminiHistory = [
