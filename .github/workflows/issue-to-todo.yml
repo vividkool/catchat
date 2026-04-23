@@ -1,0 +1,46 @@
+name: Jules Autonomous Developer
+
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  update-todo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install google-genai requests
+
+      - name: Process with Jules Worker
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_LABELS: ${{ join(github.event.issue.labels.*.name, ',') }}
+          LINE_NOTIFY_TOKEN: ${{ secrets.LINE_NOTIFY_TOKEN }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          python jules_github_worker.py
+
+
+      - name: Commit and Push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "Jules Bot"
+          git add todo.md public/index.html jules_github_worker.py status.json 2>/dev/null || git add .
+          if ! git diff --cached --exit-code; then
+            git commit -m "Jules: Autonomous update based on Issue #${{ github.event.issue.number }}"
+            git push
+          else
+            echo "No changes in todo.md to commit."
+          fi
