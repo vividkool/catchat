@@ -60,7 +60,7 @@ def main():
         """
         
         response = client.models.generate_content(
-            model='gemini-3-flash-preview',
+            model='gemini-3.1-flash-lite',
             contents=planner_prompt
         )
         
@@ -126,7 +126,7 @@ def main():
 
     print("Requesting implementation from Gemini...")
     response = client.models.generate_content(
-        model='gemini-2.0-flash',
+        model='gemini-3.1-flash-lite',
         contents=impl_prompt,
         config={
             "response_mime_type": "application/json"
