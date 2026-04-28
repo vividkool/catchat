@@ -1,0 +1,31 @@
+name: Security Scan (Push)
+
+on:
+  push:
+    branches: [ "main", "develop" ]
+  pull_request:
+    branches: [ "main", "develop" ]
+
+jobs:
+  security-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Secret Scanning
+        # 簡易的なチェックとして、禁止ファイルの存在を確認
+        run: |
+          FORBIDDEN_FILES=(".env" "service_account.json" "serviceAccountKey.json" "firebase-admin-key.json")
+          for file in "${FORBIDDEN_FILES[@]}"; do
+            if [ -f "$file" ]; then
+              echo "Error: Forbidden file $file found in repository!"
+              exit 1
+            fi
+          done
+          echo "No forbidden files detected."
+
+      - name: Lint Check (Placeholder)
+        run: |
+          echo "Running lightweight lint check..."
+          # プロジェクトに合わせて npm run lint 等を実行
