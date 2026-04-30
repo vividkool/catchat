@@ -1,8 +1,8 @@
-# 標準開発ワークフロー V2.2 (Standard Development Workflow)
+# 標準開発ワークフロー V2.3 (Standard Development Workflow)
 <!-- Last synchronized: 2026-04-30 -->
 
 このドキュメントは、AI共創時代におけるプロジェクトの安全性と開発効率を両立させるための「鉄則」を定義します。
-V2.2では、**「間接的プロンプトインジェクション（OCR攻撃）」**への防御策を強化しました。
+V2.3では、**「コアスタックの統一」**と**「段階的な機能導入プロセス」**を定義しました。
 
 ## 📌 このワークフローの3つの柱
 
@@ -127,7 +127,38 @@ AIが文脈を維持できるよう、以下のファイルを最新に保ちま
 
 ---
 
-## 7. 一括同期 (Rules Unification)
+## 8. コアスタックと段階的導入 (Core Stack & Phased Implementation)
+
+全プロジェクトのメンテナンス性を高めるため、以下のスタックと導入優先順位を守ります。
+
+### 📋 統一フォルダ構成 (Standard Directory Structure)
+- `.github/workflows/`: GitHub Actions (CI/CD)
+- `functions/`: Cloud Functions (Node.js 22)
+- `src/` or `public/`: Web Assets
+- `scripts/`: 管理・同期用スクリプト
+- `archive/`: 過去ログ
+- `checked/`: 完了済みタスク
+- `todo.md`: 現在の司令塔
+
+### 🚀 導入優先順位 (Priority for Phased Deployment)
+
+各プロジェクトには、以下の順序で標準ライブラリを組み込みます。
+
+1.  **Priority 1: Security & Secret (即時)**
+    - **Firebase App Check**: 不正リクエストの遮断（Device Check / reCAPTCHA Enterprise）。
+    - **Cloud Secrets Manager**: APIキーの安全な管理（`firebase functions:secrets`）。
+2.  **Priority 2: Data Integrity (データ信頼性)**
+    - **Zod**: OCRデータの型定義とバリデーション。
+    - **DomPurify**: 出力時のサニタイズ（XSS対策）。
+3.  **Priority 3: Runtime & Framework (実行環境)**
+    - **Node.js 22 LTS**: 全関数の標準ランタイム。
+    - **Gemini 1.5/2.0 SDK**: 最新のAIモデルへの統一。
+4.  **Priority 4: Observability (可視化)**
+    - **Cloud Logging / Error Reporting**: 異常の早期検知。
+
+---
+
+## 9. 一括同期 (Rules Unification)
 `jules-ui` にある `scripts/sync_workflow.py` を使用して、全プロジェクトのワークフローと `STANDARD_WORKFLOW.md` を常に最新状態に同期します。
 
 ---
